@@ -7,6 +7,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 
+import java.util.function.Supplier;
+
 @Slf4j
 @SpringBootApplication
 public class SpringStartHereApplication {
@@ -22,10 +24,18 @@ public class SpringStartHereApplication {
 
         // can only create one instance from stereotypes
         var myParrot = context.getBean(MyParrot.class);
-        myParrot.setName("My Parrot");
 
+        Parrot x = new Parrot();
+        x.setName("x");
+        
+        // add through register Bean
+        Supplier<Parrot> parrotSupplier = () -> x;
+
+        context.registerBean("parrot2", Parrot.class, parrotSupplier);
+        
         log.info("Context is created {}", parrot.getName());
         log.info("Context is created {}", myParrot.getName());
+        log.info("Context is created {}", context.getBean("parrot2", Parrot.class).getName());
 
 
         // By default spring does not know any of the objects you define.

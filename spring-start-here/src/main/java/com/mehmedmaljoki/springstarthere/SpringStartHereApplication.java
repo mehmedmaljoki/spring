@@ -1,8 +1,11 @@
 package com.mehmedmaljoki.springstarthere;
 
-import com.mehmedmaljoki.springstarthere.defining_beans.ProjectConfig;
 import com.mehmedmaljoki.springstarthere.defining_beans.stereotyp_annotation.entities.MyParrot;
 import com.mehmedmaljoki.springstarthere.defining_beans.using_bean_annotation.entities.Parrot;
+import com.mehmedmaljoki.springstarthere.wiring_beans.AutowieringPerson;
+import com.mehmedmaljoki.springstarthere.wiring_beans.AutowieringPersonLombock;
+import com.mehmedmaljoki.springstarthere.wiring_beans.Person;
+import com.mehmedmaljoki.springstarthere.wiring_beans.PersonsParrot;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
@@ -36,6 +39,23 @@ public class SpringStartHereApplication {
         log.info("Context is created {}", parrot.getName());
         log.info("Context is created {}", myParrot.getName());
         log.info("Context is created {}", context.getBean("parrot2", Parrot.class).getName());
+        
+        
+        var personsPirrot = context.getBean("personsParrot", PersonsParrot.class);
+        var person = context.getBean("person", Person.class);
+        
+        log.info("Context is created {}", personsPirrot.getName());
+        log.info("Context is created {} and the person has {}", person.getName(), person.getParrot().getName());
+
+
+        var person2 = context.getBean("person2", Person.class);
+        log.info("Context is created {} and the person has {}", person2.getName(), person2.getParrot().getName());
+        
+        var autowiredPerson = context.getBean(AutowieringPerson.class);
+        log.info("Context is created {} and the person has {}", autowiredPerson.getName(), autowiredPerson.getParrot().getName());
+        
+        var autoWieringLombokPerson = context.getBean(AutowieringPersonLombock.class);
+        log.info("Context is created {} and the person has {}", autoWieringLombokPerson, autoWieringLombokPerson.getParrot().getName());
 
 
         // By default spring does not know any of the objects you define.
